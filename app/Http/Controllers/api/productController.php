@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Models\Product;
+use App\Http\Resources\product as productResource;
 
 class productController extends Controller
 {
@@ -13,17 +17,8 @@ class productController extends Controller
      */
     public function index()
     {
-        return view('product.index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $products = Product::all();
+        return new productResource($products);
     }
 
     /**
@@ -34,7 +29,13 @@ class productController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // create a new product record
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->enable = 0;
+        $product->save();
+        return new productResource($product);
     }
 
     /**
@@ -49,17 +50,6 @@ class productController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -68,7 +58,7 @@ class productController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        
     }
 
     /**
