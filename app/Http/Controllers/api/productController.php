@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Product;
+use App\Models\Image;
 use App\Models\Category;
 use App\Models\CategoryProduct;
+use App\Models\ProductImage;
 use App\Http\Resources\product as productResource;
 use App\Http\Resources\category_product as categoryproductResource;
+use App\Http\Resources\product_image as productimageResource;
 
 class productController extends Controller
 {
@@ -20,16 +23,33 @@ class productController extends Controller
      */
     public function index()
     {
-        $category = Product::with('categories')->get();
-        return response()->json([
-            'data' => $category
-        ]);
-        // $products = Product::all();
-        // return new productResource($products);
+        // $category = Product::with('categories')->get();
+        // $image = Image::with('images')->get();
+        // return response()->json([
+        //     'data' => $category
+        // ]);
+        $products = Product::all();
+        return new productResource($products);
         // $product = Category::with('products')->first();
         // return response()->json([
         //     'data' => $product
         // ]);
+    }
+
+    public function product_category()
+    {
+        $category = Product::with('categories')->get();
+        return response()->json([
+            'data' => $category
+        ]);
+    }
+
+    public function product_image()
+    {
+        $image = Product::with('images')->get();
+        return response()->json([
+            'data' => $image
+        ]);
     }
 
     /**
@@ -48,8 +68,10 @@ class productController extends Controller
         $product->save();
         // return new productResource($product);
 
-        $category = Category::findOrFail([2]);
+        $category = Category::findOrFail([3]);
+        $image = Image::findOrFail([1]);
         $product->categories()->attach($category);
+        $product->images()->attach($image);
 
         return 'Success';
     }

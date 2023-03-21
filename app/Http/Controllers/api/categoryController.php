@@ -18,12 +18,12 @@ class categoryController extends Controller
      */
     public function index()
     {
-        // $category = Category::all();
-        // return new categoryResource($category);
-        $category = Product::with('categories')->first();
-        return response()->json([
-            'data' => $category
-        ]);
+        $category = Category::all();
+        return new categoryResource($category);
+        // $category = Product::with('categories')->first();
+        // return response()->json([
+        //     'data' => $category
+        // ]);
     }
 
     /**

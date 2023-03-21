@@ -14,4 +14,9 @@ class Image extends Model
         'file',
         'enable'
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_image');
+    }
 }

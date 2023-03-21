@@ -36,9 +36,17 @@ Route::put('category/{id}', [categoryController::class, 'update']);
 Route::delete('category/{id}', [categoryController::class, 'destroy']);
 
 //Image
-Route::get('image', [imageController::class, 'index']);
+Route::get('images', [imageController::class, 'index']);
 Route::get('image/{id}', [imageController::class, 'show']);
 Route::post('image', [imageController::class, 'store']);
 Route::post('image/{id}', [imageController::class, 'update']);
 Route::delete('image/{id}', [imageController::class, 'destroy']);
+
+//Pivot Product Category
+Route::get('product_category', [productController::class, 'product_category']);
+
+//Pivot Product Image
+Route::get('product_image', [productController::class, 'product_image']);
+
+
 
