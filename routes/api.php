@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\productController;
 use App\Http\Controllers\api\categoryController;
+use App\Http\Controllers\api\imageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,4 +34,11 @@ Route::get('category/{id}', [categoryController::class, 'show']);
 Route::post('category', [categoryController::class, 'store']);
 Route::put('category/{id}', [categoryController::class, 'update']);
 Route::delete('category/{id}', [categoryController::class, 'destroy']);
+
+//Image
+Route::get('image', [imageController::class, 'index']);
+Route::get('image/{id}', [imageController::class, 'show']);
+Route::post('image', [imageController::class, 'store']);
+Route::post('image/{id}', [imageController::class, 'update']);
+Route::delete('image/{id}', [imageController::class, 'destroy']);
 
