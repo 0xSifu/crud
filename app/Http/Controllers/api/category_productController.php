@@ -5,11 +5,14 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Models\CategoryProduct;
+use App\Models\Product;
 use App\Models\Category;
-use App\Http\Resources\category as categoryResource;
 use App\Http\Resources\category_product as categoryproductResource;
+use App\Http\Resources\category as categoryResource;
+use App\Http\Resources\product as productResource;
 
-class categoryController extends Controller
+class category_productController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +21,8 @@ class categoryController extends Controller
      */
     public function index()
     {
-        // $category = Category::all();
-        // return new categoryResource($category);
-        $category = Product::with('categories')->first();
-        return response()->json([
-            'data' => $category
-        ]);
+        $category_products = CategoryProduct::all();
+        return new categoryproductResource($category_products);
     }
 
     /**
@@ -34,11 +33,12 @@ class categoryController extends Controller
      */
     public function store(Request $request)
     {
-        $category = new Category();
-        $category->name = $request->input('name');
-        $category->enable = 0;
-        $category->save();
-        return new categoryResource($category);
+        $category_product = new CategoryProduct();
+        $category_product->name = $request->input('name');
+        $category_product->description = $request->input('description');
+        $category_product->enable = 0;
+        $category_product->save();
+        return new categoryproductResource($category_product);
     }
 
     /**
@@ -49,8 +49,7 @@ class categoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::findOrFail($id);
-        return new categoryResource($category);
+        //
     }
 
     /**
@@ -62,10 +61,7 @@ class categoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $category = Category::findOrFail($id);
-        $category->name = $request->input('name');
-        $category->save();
-        return new categoryResource($category);
+        //
     }
 
     /**
@@ -76,9 +72,6 @@ class categoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::findOrFail($id);
-        if ($category->delete()) {
-            return new categoryResource($category);
-        }
+        //
     }
 }

@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\CategoryProduct;
 use App\Http\Resources\product as productResource;
+use App\Http\Resources\category_product as categoryproductResource;
 
 class productController extends Controller
 {
@@ -17,8 +20,16 @@ class productController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return new productResource($products);
+        $category = Product::with('categories')->get();
+        return response()->json([
+            'data' => $category
+        ]);
+        // $products = Product::all();
+        // return new productResource($products);
+        // $product = Category::with('products')->first();
+        // return response()->json([
+        //     'data' => $product
+        // ]);
     }
 
     /**
@@ -35,7 +46,12 @@ class productController extends Controller
         $product->description = $request->input('description');
         $product->enable = 0;
         $product->save();
-        return new productResource($product);
+        // return new productResource($product);
+
+        $category = Category::findOrFail([2]);
+        $product->categories()->attach($category);
+
+        return 'Success';
     }
 
     /**
